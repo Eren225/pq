@@ -1,4 +1,5 @@
-﻿@import "tailwindcss";
+﻿@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
 
 @theme {
   --font-display: "Plus Jakarta Sans", sans-serif;
@@ -13,18 +14,34 @@
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-low: #f2f3fa;
   --color-surface-container: #eceef5;
+  --color-surface-container-high: #e6e8f0;
   --color-primary-container: #68abff;
   --color-on-primary-container: #002b52;
   --color-outline: #8c919a;
+  --color-outline-variant: #aeb2bb;
+  --color-on-primary: #f8f8ff;
+  --color-secondary-fixed: #a1f5bc;
+  --color-on-secondary-fixed: #004a28;
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
     font-family: var(--font-body);
     margin: 0;
     min-height: 100vh;
+    background-image:
+      radial-gradient(circle at top right, rgba(104, 171, 255, 0.15), transparent 24rem),
+      radial-gradient(circle at bottom left, rgba(19, 109, 65, 0.08), transparent 28rem);
   }
   
   h1, h2, h3, .font-display {
