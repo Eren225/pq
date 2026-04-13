@@ -1,24 +1,14 @@
-﻿// ✅ Ce fichier rassemble UNIQUEMENT la logique de communication avec Supabase (Base de données, Auth).
+﻿import { createClient } from '@supabase/supabase-js';
+
+// ✅ Ce fichier rassemble UNIQUEMENT la logique de communication avec Supabase (Base de données, Auth).
 // ❌ AUCUN code UI ou React (JSX) ne doit se trouver ici.
-// TODO pour le développeur Backend: Configurer '@supabase/supabase-js'
 
-export const supabaseClient = {
-  // Mock pour l'instant
-  auth: {
-    getUser: async () => ({ data: { user: null }, error: null }),
-  },
-  from: (table: string) => ({
-    select: () => Promise.resolve({ data: [], error: null }),
-  })
-};
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-export async function fetchUsers() {
-  // Exemple de fonction Backend strictement isolée
-  const { data, error } = await supabaseClient.from('users').select('*');
-  if (error) throw error;
-  return data;
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn("⚠️ VITE_SUPABASE_URL ou VITE_SUPABASE_ANON_KEY manquante dans le fichier .env !");
 }
 
-export async function incrementRollUsage(userId: string) {
-  // TODO: Appeler table "usages"
-}
+export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+
