@@ -1,21 +1,19 @@
-import type { DashboardState, RoommateId } from '../../types/dashboard';
+import type { DashboardState } from '../../types/dashboard';
 import Icon from './Icon';
 import RoommateCard from './RoommateCard';
 
 type DashboardLayoutProps = {
   state: DashboardState;
-  selectedUserId: RoommateId;
-  password: string;
-  onPasswordChange: (value: string) => void;
-  onUserChange: (value: RoommateId) => void;
+  onLogout: () => void;
+  onAddRoll: (roommateId: string) => void;
+  onNewPack: () => void;
 };
 
 export default function DashboardLayout({
   state,
-  selectedUserId,
-  password,
-  onPasswordChange,
-  onUserChange,
+  onLogout,
+  onAddRoll,
+  onNewPack,
 }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-surface text-on-surface">
@@ -25,7 +23,7 @@ export default function DashboardLayout({
             PQ
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-secondary">Liège Kots</p>
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-secondary">4eme 204</p>
             <h1 className="font-display text-2xl font-black tracking-tight text-on-surface">
               PQ Counter
             </h1>
@@ -45,6 +43,7 @@ export default function DashboardLayout({
           </button>
           <button
             className="rounded-full bg-primary px-5 py-2 text-sm font-bold text-on-primary shadow-[0_12px_30px_rgba(0,96,173,0.28)] transition hover:scale-[0.98]"
+            onClick={onNewPack}
             type="button"
           >
             Nouveau pack
@@ -62,49 +61,20 @@ export default function DashboardLayout({
               <h2 className="mt-1 text-xl font-bold text-on-surface">Ton profil personnel</h2>
               <p className="mt-1 text-sm text-on-surface-variant">
                 {state.auth.currentUserId
-                  ? `Connecté en tant que ${state.roommates.find(({ id }) => id === state.auth.currentUserId)?.name}`
-                  : 'Mode maquette frontend, sans backend actif.'}
-              </p>
-              <p className="mt-1 text-xs text-on-surface-variant">
-                Le backend Supabase n&apos;est pas encore branché. Cette zone reste purement visuelle.
+                  ? `Connecté en tant que ${state.roommates.find(({ id }) => id === state.auth.currentUserId)?.name || ''}`
+                  : 'Veuillez vous connecter pour signaler une consommation.'}
               </p>
             </div>
 
             <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-3 md:w-auto">
-              <select
-                className="rounded-full bg-surface-container-high px-4 py-3 text-sm font-semibold outline-none"
-                onChange={(event) => onUserChange(event.target.value as RoommateId)}
-                value={selectedUserId}
+              <div className="sm:col-span-2" />
+              <button
+                className="flex-1 rounded-full bg-surface-container-high px-4 py-3 text-sm font-bold text-on-surface hover:bg-surface-container-highest transition"
+                onClick={onLogout}
+                type="button"
               >
-                {state.auth.availableUsers.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.label}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                className="rounded-full bg-surface-container-high px-4 py-3 text-sm outline-none"
-                onChange={(event) => onPasswordChange(event.target.value)}
-                placeholder="Mot de passe"
-                type="password"
-                value={password}
-              />
-
-              <div className="flex gap-2">
-                <button
-                  className="flex-1 rounded-full bg-primary px-4 py-3 text-sm font-bold text-on-primary"
-                  type="button"
-                >
-                  Se connecter
-                </button>
-                <button
-                  className="flex-1 rounded-full bg-surface-container-high px-4 py-3 text-sm font-bold text-on-surface"
-                  type="button"
-                >
-                  Déconnexion
-                </button>
-              </div>
+                Déconnexion
+              </button>
             </div>
           </div>
         </section>
@@ -193,7 +163,7 @@ export default function DashboardLayout({
             <div>
               <h2 className="text-3xl font-bold text-on-surface">Colocataires</h2>
               <p className="mt-1 text-on-surface-variant">
-                Vue frontend de la période actuelle, branchée sur des données mockées.
+                Activité sur le paquet actuel.
               </p>
             </div>
             <span className="hidden rounded-full bg-secondary-fixed px-4 py-2 text-sm font-semibold text-on-secondary-fixed md:inline-flex">
@@ -207,6 +177,7 @@ export default function DashboardLayout({
                 isActiveUser={roommate.id === state.auth.currentUserId}
                 key={roommate.id}
                 roommate={roommate}
+                onAddRoll={onAddRoll}
               />
             ))}
           </div>
@@ -217,7 +188,7 @@ export default function DashboardLayout({
             <span className="text-secondary">
               <Icon name="shield" />
             </span>
-            On pose le design maintenant, le backend viendra ensuite.
+            Sécurisé avec Supabase et TanStack Query.
           </div>
         </footer>
       </main>

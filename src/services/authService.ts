@@ -29,5 +29,13 @@ export const AuthService = {
       .single();
     if (error) throw error;
     return data;
+  },
+
+  async getAllProfiles() {
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('*');
+    if (error) throw error;
+    return data;
   }
 };

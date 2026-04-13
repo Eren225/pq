@@ -12,6 +12,13 @@ export const useAuthUser = () => {
   });
 };
 
+export const useProfiles = () => {
+  return useQuery({
+    queryKey: ['profiles'],
+    queryFn: () => AuthService.getAllProfiles(),
+  });
+};
+
 export const useSignIn = () => {
   const queryClient = useQueryClient();
   return useMutation({

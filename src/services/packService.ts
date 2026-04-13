@@ -4,7 +4,7 @@ export const PackService = {
   async getCurrentPack() {
     const { data, error } = await supabaseClient
       .from('packs')
-      .select('*, buyer_id(*)') 
+      .select('*, buyer:profiles!buyer_id(name)') 
       .eq('is_active', true)
       .single();
 

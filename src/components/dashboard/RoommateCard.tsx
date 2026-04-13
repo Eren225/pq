@@ -4,9 +4,10 @@ import Icon from './Icon';
 type RoommateCardProps = {
   roommate: Roommate;
   isActiveUser: boolean;
+  onAddRoll: (roommateId: string) => void;
 };
 
-export default function RoommateCard({ roommate, isActiveUser }: RoommateCardProps) {
+export default function RoommateCard({ roommate, isActiveUser, onAddRoll }: RoommateCardProps) {
   return (
     <article className="group rounded-[1.75rem] border border-outline-variant/20 bg-surface-container-lowest p-6 shadow-[0_18px_40px_rgba(20,33,61,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(20,33,61,0.1)]">
       <div className="mb-6 flex items-center gap-4">
@@ -31,6 +32,7 @@ export default function RoommateCard({ roommate, isActiveUser }: RoommateCardPro
       <button
         className="flex w-full items-center justify-center gap-2 rounded-full bg-surface-container-high px-5 py-4 text-sm font-bold text-on-surface transition group-hover:bg-primary group-hover:text-on-primary disabled:cursor-not-allowed disabled:opacity-50"
         disabled={!isActiveUser}
+        onClick={() => onAddRoll(roommate.id)}
         type="button"
       >
         <Icon name="plus" />

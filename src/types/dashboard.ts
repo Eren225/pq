@@ -1,7 +1,7 @@
-export type RoommateId = 'elie' | 'erwan' | 'matteo' | 'mathis';
+export type RoommateId = string;
 
 export type Roommate = {
-  id: RoommateId;
+  id: string;
   name: string;
   opened: number;
   lastActive: string;
